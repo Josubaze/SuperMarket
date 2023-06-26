@@ -12,7 +12,7 @@ class ClientAdmin(admin.ModelAdmin):
 admin.site.register(Cliente, ClientAdmin)
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('description', 'amount', 'cost')
+    list_display = ('description', 'amount', 'base')
     search_fields = ['description']
     readonly_fields = ('created', 'updated')
     filter_horizontal = () 

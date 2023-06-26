@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Cliente, Producto
-from .forms import AddClientForm, EditClientForm
+from .forms import AddClientForm, EditClientForm, AddProductForm
 from django.contrib import messages
+
 
 def ventas_view(request):
     context = {}
@@ -47,3 +48,27 @@ def delete_client_view(request):
         cliente = Cliente.objects.get(pk = request.POST.get("id_personal_eliminar"))
         cliente.delete()
     return redirect('Clientes')
+
+
+
+def productos_view(request):
+
+    productos = Producto.objects.all()
+    form_product = AddProductForm()
+
+    context = {
+        "productos" : productos,
+        "form_product" : form_product
+    }
+    return render(request, "productos.html",context)
+
+def add_product_view(request):
+    if request.POST:
+        form = AddProductForm(request.POST, request.FILES)
+        if form.is_valid:
+            try:
+                form.save()
+            except:
+                messages(request, "Error al guardar Producto")
+                return redirect('Productos')
+    return redirect('Productos')
