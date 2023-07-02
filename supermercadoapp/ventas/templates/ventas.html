@@ -1,9 +1,22 @@
 {% extends 'base.html' %}
 {%load static%}
 {%block content%}
-<div>
-    <h1>Esto el parte de ventas</h1>
-    <h1>Yohohoo</h1>
-</div>
 
+<h3 class="text-center">Ventas  <i class="nav-icon fas fa-hand-holding-usd"></i></h3>
+<div class="col-md-3 pb-2">
+    <a href="{%url 'AddVenta'%}">
+        <button type="button" class="btn btn-success">
+            Punto de Venta
+            <i class="fas fa-plus-circle"></i>
+        </button>
+    </a>
+</div>
+<div class="col-md-3 pb-2">
+    <a href="#AgregarPersonalModal">
+        <button type="button" class="btn btn-success">
+            Devolución de Productos
+            <i class="fas fa-plus-circle"></i>
+        </button>
+    </a>
+</div>
 {%endblock%}

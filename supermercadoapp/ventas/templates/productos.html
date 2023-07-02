@@ -16,8 +16,8 @@
                 <h5 class="modal-title text-dark">Agregar nuevo</h5>
             </div>
             <div class="modal-body bg-dark text-white">
-                <form method="POST" action="{% url 'AddCliente' %}" enctype="multipart/form-data">{% csrf_token %}
-                    {% for field in form_personal %}
+                <form method="POST" action="{% url 'AddProducto' %}" enctype="multipart/form-data">{% csrf_token %}
+                    {% for field in form_agregar %}
                     <p>{{field.label}} <br>
                         {{field|add_class:"form-control text-dark"}}</p>
                     {% for error in field.errors %}
@@ -48,8 +48,8 @@
                 <h5 class="modal-title text-dark">Editar</h5>
             </div>
             <div class="modal-body bg-dark text-white">
-                <form method="POST" action="{% url 'EditCliente' %}" enctype="multipart/form-data">{% csrf_token %}
-                    <input type="hidden" id="id_personal_editar" name="id_personal_editar">
+                <form method="POST" action="{% url 'EditProducto' %}" enctype="multipart/form-data">{% csrf_token %}
+                    <input type="hidden" id="id_producto_editar" name="id_producto_editar">
                     {% for field in form_editar %}
                     <p> {{field.label}} <br>
                         {{field|add_class:"form-control"}}</p>
@@ -82,8 +82,8 @@
             </div>
             <div class="modal-body bg-dark text-white">
                 <p class="labelmodal">¿Estás seguro?</p>
-                <form method="POST" action="{% url 'DeleteCliente' %}">{% csrf_token %}
-                    <input type="hidden" id="id_personal_eliminar" name="id_personal_eliminar">
+                <form method="POST" action="{% url 'DeleteProducto' %}">{% csrf_token %}
+                    <input type="hidden" id="id_producto_eliminar" name="id_producto_eliminar">
             </div>
             <div class="modal-footer bg-dark text-white">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">
@@ -101,12 +101,12 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h3 class="text-center">Clientes   <i class="fas fa-users"></i></h3>
+        <h3 class="text-center">Productos   <i class="fas fa-box"></i></h3>
         <div class="col-md-3 pb-2">
             <a href="#AgregarPersonalModal"
                 data-toggle="modal" data-dismiss="modal">
                 <button type="button" class="btn btn-success">
-                    Agregar Cliente
+                    Agregar Productos
                     <i class="fas fa-plus-circle"></i>
                 </button>
             </a>
@@ -116,24 +116,32 @@
                 <thead>
                     <tr>
                         <th># ID</th>
-                        <th>Cédula</th>
-                        <th>Nombre</th>
-                        <th>Telefono</th>
+                        <th>Descripción</th>
+                        <th>Base</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Imagen</th>
                         <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody class="text-dark">
-                    {% for i in clientes %}
+                    {% for i in productos %}
                     <tr>
                         <td>{{i.id}}</td>
-                        <td>{{i.cedula}}</td>
-                        <td>{{i.name}}</td>
-                        <td>{{i.phone}}</td>
+                        <td>{{i.description}}</td>
+                        <td>{{i.base}}</td>
+                        <td>{{i.price}}</td>
+                        <td>{{i.amount}}</td>
+                        {% if i.imagen  %}
+                        <td> <img src="{{i.imagen.url}}" alt="Error" width="100" heigth = "100"> </td>
+                        {% else %}
+                        <td></td>
+                        {% endif %}
                         <td>                <!--se agrega funcion del JS-->
-                            <button onclick="editarPersonal('{{i.id}}', '{{i.name}}', '{{i.phone}}', '{{i.cedula}}',)" class="btn btn-dark-outline btn-sm" data-toggle="modal"
+                            <button onclick="editarProduct('{{i.id}}','{{i.code}}','{{i.description}}', '{{i.base}}', '{{i.price}}', '{{i.amount}}')" class="btn btn-dark-outline btn-sm" data-toggle="modal"
                                 href="#EditarPersonalModal"><img src="{% static 'index/img/editar.png' %}" alt="Error"
                                     width="30"></button>
-                            <button onclick="eliminarPersonal('{{i.id}}')" class="btn btn-dark-outline btn-sm"
+                            <button onclick="eliminarProducto({{i.id}})" class="btn btn-dark-outline btn-sm"
                                 data-toggle="modal" href="#EliminarPersonalModal"><img
                                     src="{% static 'index/img/delete.png' %}" alt="Error" width="30"></button>
                         </td>
