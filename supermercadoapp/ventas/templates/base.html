@@ -96,46 +96,9 @@
                 </p>
               </a>
             </li>
-       <!-- <li class="nav-item">
-              <a href="" class="nav-link">
-                <i class="nav-icon fas fa-industry"></i>
-                <p>
-                  Compras
-                </p>
-              </a>
-            </li> 
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>
-                  Pedidos
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="" class="nav-link">
-                    <i class="nav-icon far fa-circle text-info"></i>
-                    <p>Todos</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="" class="nav-link">
-                    <i class="nav-icon far fa-circle text-warning"></i>
-                    <p>Para hoy</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="" class="nav-link">
-                    <i class="nav-icon far fa-circle text-danger"></i>
-                    <p>Atrasados</p>
-                  </a>
-                </li>
-              </ul>
-            </li>-->
             <li class="nav-header">EMPRESA</li>
             <li class="nav-item">
-              <a href="" class="nav-link">
+              <a href="{%url 'Empresa'%}" class="nav-link">
                 <i class=" nav-icon fas fa-globe"></i>
                 <p>Información</p>
               </a>
@@ -144,6 +107,12 @@
               <a href="{%url 'Clientes' %}" class="nav-link">
                 <i class="nav-icon fas fa-users-cog"></i>
                 <p>Clientes</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'Proveedor' %}" class="nav-link">
+                <i class="nav-icon fas fa-truck"></i>
+                <p>Proveedores</p>
               </a>
             </li>
             <li class="nav-item">
@@ -173,7 +142,7 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer text-center text-primary">
-      <a href="https://www.youtube.com/c/AlejandroHernandezmicanal/videos" target="_blank" rel="noopener noreferrer">
+      <a href="{%url 'Ventas'%}" target="_blank" rel="noopener noreferrer">
         <strong>¡SuperMarket! <img src="{% static 'index/img/carrito.png' %}" alt="Logo Carrito" width="20"> &copy; El
           Mejor 
           Sitio!

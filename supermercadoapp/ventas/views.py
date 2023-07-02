@@ -190,3 +190,57 @@ def empresa_view(request):
         'form_empresa': form_empresa,
         'empresa': empresa
     }
+
+    return render(request, 'empresa.html', context)
+
+def proveedor_view(request):
+    
+    form_personal = ProveedorForm()
+    form_editar_personal = EditarProveedorForm()
+    personal = Proveedor.objects.all()
+    num_personal = len(personal)
+
+    context = {
+        'form_personal': form_personal,
+        'form_editar_personal': form_editar_personal,
+        'personal': personal,
+        'num_personal': num_personal
+    }
+    return render(request, 'proveedores.html', context)
+
+
+def add_proveedor_view(request):
+    if request.POST:
+        #print(request.POST)
+        form = ProveedorForm(request.POST, request.FILES)
+        if form.is_valid:
+            try:
+                form.save()
+            except:
+                messages.warning(request,"Proveedor ya agregado o datos incorrectos")
+                return redirect('Proveedor')
+
+
+    return redirect('Proveedor')
+
+
+def edit_proveedor_view(request):
+    if request.POST:
+        producto = Proveedor.objects.get(pk=request.POST.get('id_personal_editar'))
+        form = EditarProveedorForm(
+            request.POST, request.FILES, instance=producto)
+        if form.is_valid:
+            form.save()
+
+    return redirect('Proveedor')
+
+
+def delete_proveedor_view(request):
+    if request.POST:
+        if int(request.POST.get('id_personal_eliminar')) == 1:
+            messages.warning(request, "No es posible eliminar este proveedor")
+            return redirect('Proveedor')
+        personal = Proveedor.objects.get(pk=request.POST.get('id_personal_eliminar'))
+        personal.delete()
+        
+    return redirect('Proveedor')

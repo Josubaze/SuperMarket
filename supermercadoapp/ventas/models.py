@@ -20,6 +20,7 @@ class Cliente(models.Model):
     
 class Producto(models.Model):
     code = models.CharField(max_length=200, unique = True, null = True, blank = False)
+    #proveedor = models.ForeignKey(Proveedor, on_delete=models.SET_NULL , null=True , related_name='proveedor')
     description = models.CharField(max_length=255, unique = True, null = False)
     imagen = models.ImageField(upload_to="productos", null = False, blank = True)
     price = models.DecimalField(max_digits=15, decimal_places=2, null = True, default = 0)
@@ -120,3 +121,37 @@ class Iva (models.Model):
     
     def __str__(self):
         return str(self.monto)
+
+class MetodoPago(models.Model):
+    egreso = models.ForeignKey(Egreso, on_delete=models.CASCADE)
+    efectivo = models.DecimalField(max_digits=20, decimal_places=2 , default=0)
+    tarjeta = models.DecimalField(max_digits=20, decimal_places=2 , default=0)
+    transferencia = models.DecimalField(max_digits=20, decimal_places=2 , default=0)
+    vales = models.DecimalField(max_digits=20, decimal_places=2 , default=0)
+    otro = models.DecimalField(max_digits=20, decimal_places=2, default=0)
+
+    class Meta:
+        verbose_name='metodo pago'
+        verbose_name_plural = 'metodos pago'
+    
+    def __str__(self):
+        return str(self.id)
+
+class PagosEgreso(models.Model):
+    egreso = models.ForeignKey(Egreso, on_delete=models.CASCADE)
+    fecha = models.DateField(max_length=255)
+    monto = models.DecimalField(max_digits=20, decimal_places=2 , null=False)
+    comentarios = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name='pagos egreso'
+        verbose_name_plural = 'pagos egreso'
+        order_with_respect_to = 'created'
+    
+    def __str__(self):
+        return self.monto
+    
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['created'])
+        return item
