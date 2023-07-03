@@ -33,26 +33,28 @@ class EditClientForm(forms.ModelForm):
 class AddProductForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ('code','description', 'base', 'price','amount', 'imagen')
+        fields = ('code','description', 'base', 'price','amount', 'proveedor', 'imagen')
         labels = {
             "code": "Código",
             "description": "Descripción",
             "base": "Base",
             "price": "Precio",
             "amount": "Cantidad",
+            "proveedor": "Proveedor",
             "imagen": "Imagen"
         }
 
 class EditProductForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ('code','description', 'base', 'price','amount', 'imagen')
+        fields = ('code','description', 'base', 'price','amount', 'proveedor', 'imagen')
         labels = {
             "code": "Código",
             "description": "Descripción",
             "base": "Base",
             "price": "Precio",
             "amount": "Cantidad",
+            "proveedor": "Proveedor",
             "imagen": "Imagen"
         }
         widgets = {
@@ -61,6 +63,7 @@ class EditProductForm(forms.ModelForm):
             "base": forms.TextInput(attrs = {'id':'base_editar'}),
             "price": forms.TextInput(attrs = {'id':'precio_editar'}),
             "amount": forms.TextInput(attrs = {'id':'cantidad_editar'}),
+            "proveedor": forms.TextInput(attrs = {'id':'proveedor_editar'}),
 
         }
 

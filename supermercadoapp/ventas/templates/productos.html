@@ -120,6 +120,7 @@
                         <th>Base</th>
                         <th>Precio</th>
                         <th>Stock</th>
+                        <th>Proveedor</th>
                         <th>Imagen</th>
                         <th>Opciones</th>
                     </tr>
@@ -132,13 +133,14 @@
                         <td>{{i.base}}</td>
                         <td>{{i.price}}</td>
                         <td>{{i.amount}}</td>
+                        <td>{{i.proveedor}}</td>
                         {% if i.imagen  %}
                         <td> <img src="{{i.imagen.url}}" alt="Error" width="100" heigth = "100"> </td>
                         {% else %}
                         <td></td>
                         {% endif %}
                         <td>                <!--se agrega funcion del JS-->
-                            <button onclick="editarProduct('{{i.id}}','{{i.code}}','{{i.description}}', '{{i.base}}', '{{i.price}}', '{{i.amount}}')" class="btn btn-dark-outline btn-sm" data-toggle="modal"
+                            <button onclick="editarProduct('{{i.id}}','{{i.code}}','{{i.description}}', '{{i.base}}', '{{i.price}}', '{{i.amount}}, '{{i.proveedor.nombre}}')" class="btn btn-dark-outline btn-sm" data-toggle="modal"
                                 href="#EditarPersonalModal"><img src="{% static 'index/img/editar.png' %}" alt="Error"
                                     width="30"></button>
                             <button onclick="eliminarProducto({{i.id}})" class="btn btn-dark-outline btn-sm"

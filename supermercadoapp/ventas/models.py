@@ -17,10 +17,25 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.name
+
+class Proveedor(models.Model):
+    codigo = models.CharField(max_length=255, null=True, blank = True)
+    nombre = models.CharField(max_length=255)
+    telefono = models.CharField(max_length=255, null=True, blank=True)
+    imagen = models.ImageField(upload_to='proveedor', null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name='proveedor'
+        verbose_name_plural = 'proveedores'
+    
+    def __str__(self):
+        return self.nombre
     
 class Producto(models.Model):
     code = models.CharField(max_length=200, unique = True, null = True, blank = False)
-    #proveedor = models.ForeignKey(Proveedor, on_delete=models.SET_NULL , null=True , related_name='proveedor')
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.SET_NULL , null=True , related_name='proveedorr')
     description = models.CharField(max_length=255, unique = True, null = False)
     imagen = models.ImageField(upload_to="productos", null = False, blank = True)
     price = models.DecimalField(max_digits=15, decimal_places=2, null = True, default = 0)
@@ -80,21 +95,6 @@ class ProductosEgreso(models.Model):
     def toJSON(self):
         item = model_to_dict(self, exclude=['created'])
         return item
-
-class Proveedor(models.Model):
-    codigo = models.CharField(max_length=255, null=True, blank = True)
-    nombre = models.CharField(max_length=255)
-    telefono = models.CharField(max_length=255, null=True, blank=True)
-    imagen = models.ImageField(upload_to='proveedor', null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name='proveedor'
-        verbose_name_plural = 'proveedores'
-    
-    def __str__(self):
-        return self.nombre
 
 class Empresa(models.Model):
     nombre = models.CharField(max_length=255)
