@@ -110,7 +110,7 @@ def delete_product_view(request):
         producto.delete()
     return redirect('Productos')
 
-class add_venta(ListView):
+class Venta(ListView):
     template_name = 'add_ventas.html'
     model = Egreso
 

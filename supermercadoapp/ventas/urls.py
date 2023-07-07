@@ -16,7 +16,7 @@ urlpatterns = [
 
     path('egresos/', views.egresos_view, name='Egresos'),
 
-    path('add_ventas/',views.add_venta.as_view(), name='Ventas'),
+    path('add_ventas/',views.Venta.as_view(), name='Ventas'),
     path('save_venta/', views.save_venta_view, name='AddVenta'),
     
     path('export/', views.export_pdf_view, name="ExportPDF" ),
