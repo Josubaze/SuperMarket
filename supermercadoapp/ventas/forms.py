@@ -63,8 +63,8 @@ class EditProductForm(forms.ModelForm):
             "base": forms.TextInput(attrs = {'id':'base_editar'}),
             "price": forms.TextInput(attrs = {'id':'precio_editar'}),
             "amount": forms.TextInput(attrs = {'id':'cantidad_editar'}),
-            "proveedor": forms.TextInput(attrs = {'id':'proveedor_editar'}),
-
+            "proveedor": forms.Select(attrs={'id': 'proveedor_editar'}),
+ 
         }
 
 class ProveedorForm(forms.ModelForm):
