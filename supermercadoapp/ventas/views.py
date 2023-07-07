@@ -8,12 +8,22 @@ from weasyprint.text.fonts import FontConfiguration
 from django.template.loader import get_template
 from weasyprint import HTML, CSS
 from django.conf import settings
+from datetime import date, datetime
+HOY = datetime.today().strftime('%Y-%m-%d')
 import os
 
 
-def ventas_view(request):
-    context = {}
-    return render(request, "ventas.html",context)
+def egresos_view(request):
+    egresos = Egreso.objects.all()
+    empresa = Empresa.objects.get(pk=1)
+    moneda = empresa.moneda
+
+    context = {
+        'egresos': egresos,
+        'moneda': moneda
+    }
+
+    return render(request, 'egresos.html', context)
 
 def clientes_view(request):
     clientes = Cliente.objects.all()
@@ -129,10 +139,18 @@ class add_venta(ListView):
 
         return JsonResponse(data,safe=False)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
         context["productos_lista"] = Producto.objects.all()
+        context["HOY"] = HOY
         context["clientes_lista"] = Cliente.objects.all()
+        empresa = Empresa.objects.get(pk=1)
+        moneda = empresa.moneda
+        context["moneda"] = moneda
+        try:
+            context["last_id"] = int(Egreso.objects.latest('id').id) + 1
+        except Exception as e:
+            context["last_id"] = 1
         return context
     
 
@@ -244,3 +262,75 @@ def delete_proveedor_view(request):
         personal.delete()
         
     return redirect('Proveedor')
+
+def save_venta_view(request):
+    if request.POST:
+        data =[]
+        try:
+            action = request.POST['action']
+            if action == "save":
+                datos = json.loads(request.POST["verts"])
+                id_cliente = request.POST["id_cliente"]
+                comentarios = request.POST["comentarios"]
+                cliente = Cliente.objects.get(pk=id_cliente)
+                total = float(datos["total"])
+                fecha = request.POST["fecha"]
+                ticket_num = float( request.POST["ticket"])
+                efectivo = float( request.POST["efectivo"])
+                tarjeta = float( request.POST["tarjeta"])
+                transferencia = float( request.POST["transferencia"])
+                vales = float( request.POST["vales"])
+                otro = float( request.POST["otro"])
+                pagado = efectivo + tarjeta + transferencia + vales + otro
+                #desglosar_num = float( request.POST["desglosar"])
+
+                if ticket_num == 1:
+                    ticket =True
+                elif ticket_num == 0:
+                    ticket = False
+                '''
+                if desglosar_num == 1:
+                    desglosar =True
+                elif desglosar_num == 0:
+                    desglosar = False
+                '''
+
+                venta = Egreso(cliente=cliente, fecha_pedido=fecha, total=total, pagado=pagado, comentarios=comentarios, ticket=ticket)
+                venta.save()
+
+                metodo = MetodoPago(egreso=venta,efectivo=efectivo, tarjeta=tarjeta, transferencia=transferencia, vales=vales, otro=otro)
+                metodo.save()
+
+                data.append(venta.id)
+                data.append(venta.ticket)
+                '''
+                #data.append(venta.desglosar)
+                
+                for i in datos["products"]:
+                    pr_save = Producto.objects.get(pk=float(i["id"]))
+
+                    if pr_save.servicio == False:
+                        porcion_convertida = float(i["cantidad"]) * (1/float(pr_save.porcion))
+                        suma = float(pr_save.cantidad) - porcion_convertida
+                        pr_save.cantidad = suma
+                        pr_save.save()
+
+                   
+                    iva_producto = float(pr_save.iva)
+
+                    if iva_producto != 0:
+                        subtotal = float(i["subtotal"]) / (1+iva_producto)
+                        iva = subtotal * iva_producto
+                    else:
+                        subtotal = float(i["subtotal"])
+                        iva = 0
+
+                    product = ProductosEgreso(egreso=venta, producto=pr_save,cantidad=float(i["cantidad"]),precio=float(i["precio"]),subtotal=subtotal,iva=iva,total=float(i["subtotal"]))
+                    product.save()
+                    print(i["subtotal"])
+                '''
+                messages.info(request,"Venta agregada con éxito")
+        except Exception as e:
+            data['error'] = str(e)
+
+    return JsonResponse(data,safe=False)

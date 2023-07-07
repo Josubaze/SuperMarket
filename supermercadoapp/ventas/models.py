@@ -60,7 +60,7 @@ class Egreso(models.Model):
     comentarios = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
     ticket = models.BooleanField(default=True)
-    desglosar = models.BooleanField(default=True)
+    #desglosar = models.BooleanField(default=True)
     updated = models.DateTimeField(auto_now_add=True , null=True)
 
     class Meta:

@@ -50,7 +50,7 @@
             </div>
             <div class="modal-body bg-dark text-white">
                 <p class="labelmodal">¿Estás seguro?</p>
-                <form method="POST" action="{% url 'DeleteCorrectivo' %}">{% csrf_token %}
+                <form method="POST" action="">{% csrf_token %}<!--DeleteCorrectivo-->
                     <input type="hidden" id="id_correctivo_eliminar" name="id_correctivo_eliminar">
             </div>
             <div class="modal-footer bg-dark text-white">
@@ -72,7 +72,7 @@
 </div>
 <div class="row">
     <div class="col-md-9">
-        <a class="btn btn-success ml-2 mb-5 border border-dark" href="{% url 'Venta' %}">
+        <a class="btn btn-success ml-2 mb-5 border border-dark" href="{% url 'Ventas' %}">
             Agregar nueva venta <i class="fas fa-plus-circle"></i>
         </a>
     </div>
@@ -222,7 +222,7 @@
 
     function consultData(id) {
         $.ajax({
-            url: "{% url 'ConsultData' %}",
+            url: "",<!--ConsultData-->
             type: 'POST',
             data: {
                 csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -258,7 +258,7 @@
         });
         console.clear();
         $.ajax({
-            url: "{% url 'UpdateEntregados' %}",
+            url: "",<!--uptdateEntregados-->
             type: 'POST',
             data: {
                 csrfmiddlewaretoken: '{{ csrf_token }}',
